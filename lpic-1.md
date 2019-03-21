@@ -168,6 +168,36 @@ ls -al | sort -k 5 -n --> sort ls by file size (numeric)
 - split --> by bytes, lines
 - translate --> ???
 - uniq --> get rid of duplicates lines
+- fmt --> cleans up files, -width CHARSINONELINE
+- nl == cat -n but with way more options
+- pr --> prepare for printing, shows header, footer, etc --> lpr for actually printing --> genscript for postscript
 
-Continue at page 28
+```
+ifconfig eth0 | grep HWaddr | cut -d " " -f 11
+00:0C:76:96:A3:73
+```
+```
+ wc repoindex.xml
+ 2  5 63 --> LINES WORDS CHARS
+```
+
 ##### 103.4 Search text files using RegEx
+##### grep
+```
+ip addr sh eth0 | grep -i ETHER
+    link/ether 00:50:56:8d:2d:76 brd ff:ff:ff:ff:ff:ff --> case insensitive
+    
+ip addr sh eth0 | grep -ic ETHER
+1 --> count lines
+
+ip addr sh eth0 | grep -ic -f FILENAME
+0 --> matches expr in filename
+
+
+```
+grep -r PATTERN --> find PATTERN in files recursively
+grep -E "REGEX" --> for more complex regex
+
+###### sed
+
+Continue at page 39
