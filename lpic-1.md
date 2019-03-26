@@ -1,7 +1,8 @@
 # LPIC 1
 ### Learning Bank: https://testbanks.wiley.com/WPDACE/Dashboard
 - [x] Assessment Test (19.00/30) :-(
-- [ ] Chapter 1 - Command Line Tools
+- [x] Chapter 1 - Command Line Tools (17/20) :-| (85%)
+- [ ] Chapter 2 - Managing Software
 
 #### Chapter 1 - Command Line Tools
 ##### 103.1 Work on the command line
@@ -195,9 +196,23 @@ ip addr sh eth0 | grep -ic -f FILENAME
 
 
 ```
-grep -r PATTERN --> find PATTERN in files recursively
-grep -E "REGEX" --> for more complex regex
+- grep -r PATTERN --> find PATTERN in files recursively
+- grep -E "REGEX" --> for more complex regex
 
 ###### sed
 
-Continue at page 39
+- modifies a files contents and shows changes at STDOUT
+
+```
+sed a\text test.txt --> append text to file
+sed i\text test.txt --> insert text to file
+sed 's\regex\replacement\g' --> replace all occurencys of regex with replacement
+sed c\text test.txt --> replace range of lines with text
+
+sed r filename test.txt --> append text from filename to file
+sed w filename test.txt --> write pattern into file
+sed q --> quit script
+sed Q --> quit script without printing the current pattern
+```
+#### Chapter 2 - Managing Software
+##### 102.3 - Managed shared libraries
