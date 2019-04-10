@@ -7,6 +7,13 @@ sudo pacman -S qemu virt-manager dmidecode bridge-utils virt-viewer
 sudo usermod -a -G libvirt USERNAME
 sudo systemctl enable libvirtd --now
 ```
+## Downloading an ISO
+
+We will be using an Alpine Linux for our test
+
+```
+curl 'http://dl-cdn.alpinelinux.org/alpine/v3.9/releases/x86_64/alpine-standard-3.9.3-x86_64.iso' --output ./alpine.iso
+```
 
 ## Creating your first VM
 
