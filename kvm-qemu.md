@@ -1,7 +1,27 @@
 # Using QEMU/KVM with Libvirt
 I wanted to get away from Oracle Virtualbox by trying KVM for a little test Lab
 
-## Installing all Packages
+## Making sure you are good to go
+Please check if hardware virtualization is enabled by running
+```
+lscpu | grep Virtualization
+Virtualization:      VT-x
+```
+If you won´t get back anything, please enable the corresponding virtualization feature for your CPU.
+
+Next, check if you loaded the necessary kernel modules by running
+```
+lsmod | grep kvm
+lsmod | grep virtio
+```
+If these commands return nothing, for example virtio, load the modules with the following command, so we can use para-virtualized devices.
+```
+sudo modprobe virtio virtio-net
+```
+To load these modules automatically, add them to /etc/modules-load.d/FILENAME with the module as it´s content
+
+## Installing all necessary Packages
+Install qemu as the driver, virt-manager
 ```
 sudo pacman -S qemu virt-manager dmidecode bridge-utils virt-viewer
 sudo usermod -a -G libvirt USERNAME
