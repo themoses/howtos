@@ -21,9 +21,9 @@ sudo modprobe virtio virtio-net
 To load these modules automatically, add them to /etc/modules-load.d/FILENAME with the module as it´s content
 
 ## Installing all necessary Packages
-Install qemu as the driver, virt-manager
+Install qemu as the kvm driver, virt-manager, virt-viewer, etc to use virsh properly.
 ```
-sudo pacman -S qemu virt-manager dmidecode bridge-utils virt-viewer
+sudo pacman -S qemu virt-manager dmidecode bridge-utils virt-viewer ebtables dnsmasq openbsd-netcat
 sudo usermod -a -G libvirt USERNAME
 sudo systemctl enable libvirtd --now
 ```
@@ -54,3 +54,4 @@ virt-install \
 --vcpus=2 \
 --cdrom=/home/USERNAME/Downloads/alpine-extended-3.9.3-x86_64.iso\
 ```
+After the Domain (libvirt's name for a VM) the virt-viewer will open and you can proceed to install your VM
