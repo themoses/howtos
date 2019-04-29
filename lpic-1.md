@@ -216,3 +216,55 @@ sed Q --> quit script without printing the current pattern
 ```
 #### Chapter 2 - Managing Software
 ##### 102.3 - Managed shared libraries
+
+Package management consists of mainly the following components:
+- Package: tarball containing the necessary binaries
+- Database: List of installed files on the computer
+- Dependencies: List of which packages rely on each other
+- Checksum: Hashes to prove the integrity of the packages
+
+It offers you:
+- Installation/Upgrades/Removal of packages
+- Package building
+
+###### RPM
+
+RPM Package Manager usually has the convention of packagename-a.b.c.-x.arch.rpm which translates to name-version.number-buildnumber.architecture.rpm
+You can use RPM packages on all RPM distros (like SUSE) - it's not recommended, though. The RPM utilities could be different, dependencies like to be named differently, different init systems etc.
+
+```
+rpm -i/U packagename --> install/upgrade a package
+rpm -qi packagename --> query if a package is installed (with i for more information)
+rpm -e packagename --> remove a package
+rpm --rebuilddb --> rebuild the rpm db
+```
+
+Yum and dnf are most commonly used. No need to download rpm packages manually, just install them out of a repo
+```
+yum install/update/remove/list/check-update/clean --> pretty self explanatory
+```
+Repos are stored in /etc/yum.repos.d/REPONAME
+
+###### Building Packages
+
+Building packages is often done when compiling a program from source to use special compiler flags to improve performance with CPU flags and still manage the program with the package manager. Packages out of a repo are generally compiled to maximize support to the underlying operating system architecture.
+
+###### Debian Packages
+
+.deb Packages are manipulated with dpkg
+
+```
+dpkg -i --> install
+dpkg -r --> remove
+dpkg -P --> purge (including config files)
+dpkg -p --> print information on installed package
+dpkg -l PATTERN --> list all matched packages
+```
+
+Like yum, there exists apt to handle package downloading and upgrades for you from a repo. it works pretty much the same way:
+
+```
+apt install/remove/update/upgrade/clean
+```
+
+Repos are stored in /etc/apt/sources.list
