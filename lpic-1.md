@@ -245,6 +245,8 @@ yum install/update/remove/list/check-update/clean --> pretty self explanatory
 ```
 Repos are stored in /etc/yum.repos.d/REPONAME
 
+Yum itself ist configured by editing the /etc/yum.conf file.
+
 ###### Building Packages
 
 Building packages is often done when compiling a program from source to use special compiler flags to improve performance with CPU flags and still manage the program with the package manager. Packages out of a repo are generally compiled to maximize support to the underlying operating system architecture.
@@ -268,3 +270,80 @@ apt install/remove/update/upgrade/clean
 ```
 
 Repos are stored in /etc/apt/sources.list
+
+Packages often comen with an initial configuration. This config can be altered by running dpkg-reconfigure
+PACKAGENAME
+
+Deb packages consist of a source tarball, a patch file to modify the source code and a signature.
+Binary packages are created with the debian package tools like .
+
+Overall, debian based distribution have a higher compatibility of packages than RPM based distros.
+
+Config file for apt lies in /etc/apt/apt.conf and uses BIND server config file layout.
+
+The program alien makes it possible to convert packages from deb to RPM and vice versa.
+Compiling from source or building a package on your own might be a better choice here.
+
+###### Libraries
+
+Libraries are shared across multiple programs to reduce space on local storage devices and RAM as well.
+These Shared libraries are called dynamic libraries and usually end with .so which stands for shared object.
+Static libraries used by linkers to include them in their program use to have .a as filename extension.
+
+Libraries with major upgrades are installed alongside their older versions. See libc.so.5 libc.so.6 etc.
+
+Paths to libraries are maintained in either /etc/ld.so.conf or /etc/ld.so.conf.d/ 
+and can be placed there with NAME.conf. The content is a LDPATH variable??
+
+After changing a library's path, `ldconfig` has to be run.
+
+LD_LIBRARY_PATH env variable specifies additional locations on your filesystem to look for libraries for example:
+```
+export LD_LIBRARY_PATH=/home/username/testlib:/opt/newlib
+```
+
+Linker version mismatches can be resolved using symlinks:
+```
+ln -s examplelib.so.5.2 examplelib.so.5
+ldconfig
+```
+
+###### Library Management
+
+`ldd /bin/ls` displays shared library dependencies
+ldconfig also rebuilds /etc/ld.so.cache when adding/removing entries to /etc/ld.so.conf
+
+#### Process Management
+
+Understanding uname
+
+| Name | Description |
+| --- | --- |
+| Node Name | -n shows hostname |
+| Kernel Name | -s shows kernel name (linux/darwin) |
+| Kernel Version | -v shows kernel build date and time |
+| kernel Release | -r shows release version |
+| Machine | -m shows architecture |
+| Processor | -p shows maufacturer, speed, model or unknown |
+| Hardware Platform | -i shows information or unknown |
+| OS Name | -o shows os name (GNU/Linux) |
+| All | -a prints all above information |
+
+To gain information about processes use `ps` with it's most common parameters - mostly without dashes (BSD legacy)
+```
+ps faux --> all processes, extra information, as process tree
+ps u USERNAME --> processes owned by USERNAME
+username 2498 0.0 0.8 1860 1044 pts/1 S 16:17 0:00 bash
+```
+The output gives you the username, process id, parent process id, cpu time, memory use, tty, command
+
+`top` can also be used and takes multiple keystrokes, for example `M` / `P` to sort by memory consumption/CPU time
+or `k` to kill a process.
+
+##### fg and bg
+
+`CTRL+Z`pauses the program and sends it to the background of the terminal. `fb` gets it back to the foreground.
+Run commands with space and ampersand at the end to launch them in bg directly (`cat file.txt &`).
+
+Process priorities can be managed by their niceness. To set the niceness when launching a program the `nice` command is prepended (`nice -n 12 programname`) or `renice -15 -p PID` if the process already launched. -20 is the highest priority an 19 the lowest.
+
