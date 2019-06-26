@@ -385,7 +385,45 @@ DMA are visible in `/proc/dma`. Like IRQ and I/O addresses, they should not be s
 ##### Boot Disks and Geometry Settings
 BIOS uses a boot sector (first sector of the disk) and executes the code written in there. EFI uses a specific partition called ESP. EFI is more flexible since this partition could be present in NVRAM.
 
-Hard disks use a CHS geometry (cylinder/head/sector). Each head uses a track (circle on the platter). All tracks combined make up the cylinder. Tracks consist of sectors, so each sector is addressable by telling which 
+Hard disks use a CHS geometry (cylinder/head/sector). Each head uses a track (circle on the platter). All tracks combined make up the cylinder. Tracks consist of sectors, so each sector is addressable by telling which cylinder number, head number and sector number you need.
+
+Nowadays, the values presented to the BIOS are not a representation of the real sectors on the disk. LBA (logical block addressing is the replacement for CHS. It assigns a unique number to each sector and the disk firmware handles the correct head and cylinder.
+
+##### Cold- and Hotplugging
+Coldplug devices can only be attached if the computer is turned off, hotplug devices can be added while the computer is running.
+
+Multiple components handle hotplugging:
+- sysfs virtual filesystem at `/sys` exports device information, similar to `/proc`.
+- HAL Daemon (Hardware Abstraction Layer) provides information about available hardware
+- D-Bus provides hardware information like hald but enables processes to be notified by events like a plugged in USB stick
+- udev is a virtual filesystem at `/dev` and creates dynamic device files --> configurable by `/etc/udev/rules`
+
+##### Configuring Expansion Cards
+Devices require an IRQ, I/O port and DMA address set to function. The PCI Bus enables devices to configure themselves automatically. It is possible to manipulate how they are detected and list them with `lspci`
+
+- linux kernel options --> if you are compiling the kernel yourself.
+- firmware pci options
+- particular ressources can be needed by the device, so enable the modules or set a boot option to load them
+- use `setpci` to query and adjust values directly --> dangerous
+
+To load modules you'll need use `modprobe`/`insmod` and `lsmod` to list them. Insmod inserts a single module into the kernel and requires all all modules it is depending on to be loaded beforehand. Modprobe loads all dependencies and the module itself. Modprobe -r removes a module but there exists `rmmod` to do this.
+
+##### USB Devices
+Use `lsmod` to list usb devices.
+
+usbmgr and hotplug exist but are usually not shipped with a distro.
+
+##### PATA
+PATA vs SATA vs SCSI vs NVME
+
+PATA uses a parallel interface and are configured as master/slave and an IDE cable meaning that there can be two devices at one cable. They are typically identified as `/dev/hda` and so on. This applies for optical drives as well but these are mostly symlinked to `/dev/dvd`
+
+##### SATA
+Sata is a serial bus but are attached one by one to the motherboard. It is faster than PATA and the kernel handles them as SCSI drives.
+
+##### SCSI
+SCSI is a parallel bus but Serial Attached SCSI (SAS) is a serial bus. SCSI devices are named `/dev/sda` and so on with optical drives as `/dev/sra`. USB sticks are mapped as SCSI devices as well.
+
 
 #### 104.1 Create partitions and filesystems
 
