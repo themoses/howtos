@@ -347,3 +347,58 @@ Run commands with space and ampersand at the end to launch them in bg directly (
 
 Process priorities can be managed by their niceness. To set the niceness when launching a program the `nice` command is prepended (`nice -n 12 programname`) or `renice -15 -p PID` if the process already launched. -20 is the highest priority an 19 the lowest.
 
+###### Killing Processes
+
+`kill -s signal PID` while signal is usually the SIGKILL signal (also known as 9). 
+Other signals such as SIGHUP and SIGTERM can be sent as well 
+(Kill process and reload config / kill process and close opened files)
+
+You can run a program after logging out/terminating your session with `nohup program` so the 
+program will ignore any signals received by the kernel.
+
+
+### Configuring Hardware
+
+#### 101.1 Determine and configure hardware settings
+
+##### Configuring the firmware and core hardware
+Most computers use UEFI, many VMs still use BIOS. This firmware is produced by the hardware's manufacturer.
+It gets all the devices in the computer ready and performs basic checking. Once Linux boots, it uses own drivers to communicate with the hardware.
+
+##### Interrupts
+Interrupt requests or IRQ is a signal sent to the CPU to stop current activity and handle a certain event.
+There exist multiple interrupts to handle mouse or keyboard events etc. Interrupts are listed in `/proc/interrupts`
+
+Using IRQs requires a driver for a certain device (network, videocard, etc). Devices should not use the same IRQ to prevent conflicts.
+
+##### I/O Addresses
+I/O Addresses are unique locations in memory, reserved for CPU and hardware communication. Like IRQs, they should not be shared.
+The I/O adresses can be checked by running `cat /proc/ioports` which - for example - delivers 0060-006f for the keyboard
+
+##### DMA Adresses
+Direct memory addressing can be use alternatively to communicate to I/O ports but does not rely on the CPU as a transport medium and can hereby improve the system's performance.
+DMA are visible in `/proc/dma`. Like IRQ and I/O addresses, they should not be shared.
+
+
+#### 102.1 Design hard disk layout
+
+##### Boot Disks and Geometry Settings
+BIOS uses a boot sector (first sector of the disk) and executes the code written in there. EFI uses a specific partition called ESP. EFI is more flexible since this partition could be present in NVRAM.
+
+Hard disks use a CHS geometry (cylinder/head/sector). Each head uses a track (circle on the platter). All tracks combined make up the cylinder. Tracks consist of sectors, so each sector is addressable by telling which 
+
+#### 104.1 Create partitions and filesystems
+
+
+
+
+
+#### 104.2 Maintain the integrity of filesystems
+
+
+
+
+
+
+#### 104.3 Control mounting and unmounting of filesystems
+
