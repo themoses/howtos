@@ -17,4 +17,4 @@ rpm --rebuilddb
 yum clean all
 ```
 
-5. Run `yum upgrade` again
+5. Run `yum update` again
