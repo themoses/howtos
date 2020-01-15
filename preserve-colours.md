@@ -5,8 +5,8 @@ The easiest way is to do this via the Gnome Terminal's "Copy as HTML" function.
 
 By default there is no shortcut set for this, but you can easily assign something like `CTRL+SHIFT+X` in the preferences.
 
-![Alt text](./img.jpg)
+![Alt text](./term_colours.png)
 
 This preserves colours and formatting when pasting to a mail.
 
-![Alt text](./img.jpg)
+![Alt text](./insert_mail.png)
